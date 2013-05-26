@@ -103,10 +103,28 @@ static byte eth_type_is_arp_and_my_ip(word len) {
 }
 
 static byte eth_type_is_ip_and_my_ip(word len) {
-  return len >= 42 && gPB[ETH_TYPE_H_P] == ETHTYPE_IP_H_V &&
-                      gPB[ETH_TYPE_L_P] == ETHTYPE_IP_L_V &&
-                      gPB[IP_HEADER_LEN_VER_P] == 0x45 &&
-                      memcmp(gPB + IP_DST_P, EtherCard::myip, 4) == 0;
+
+  if (len < 42 ||
+      gPB[ETH_TYPE_H_P] != ETHTYPE_IP_H_V ||
+      gPB[ETH_TYPE_L_P] != ETHTYPE_IP_L_V ||
+      gPB[IP_HEADER_LEN_VER_P] != 0x45)
+    return 0;
+
+  if (memcmp(gPB + IP_DST_P, EtherCard::myip, 4) == 0)
+    return 1;
+
+  uint8_t zerobroadcast[] = { 0xFF, 0xFF, 0xFF, 0xFF };
+  if (memcmp(gPB + IP_DST_P, zerobroadcast, 4) == 0)
+    return 1;
+
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    uint8_t maskinv = ~EtherCard::mymask[i];
+    if ((gPB[IP_DST_P + i] & maskinv) != maskinv)
+      return 0;
+  }
+
+  return 1;
 }
 
 static void fill_ip_hdr_checksum() {
