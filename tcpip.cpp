@@ -359,7 +359,11 @@ void EtherCard::udpTransmit (word datalen) {
 
 void EtherCard::sendUdp (char *data,word datalen,word sport, byte *dip, word dport) {
   udpPrepare(sport, dip, dport);
-  memcpy(gPB + UDP_DATA_P, data, datalen);
+
+  char* target = (char*)gPB + UDP_DATA_P;
+  if (data != target)
+    memcpy(gPB + UDP_DATA_P, data, datalen);
+
   udpTransmit(datalen);
 }
 
