@@ -157,7 +157,7 @@ public:
                              const uint8_t* dns_ip =0);
   // tcpip.cpp
   static void initIp (uint8_t *myip,uint16_t wwwp);
-  static void makeUdpReply (char *data,uint8_t len, uint16_t port);
+  static void makeUdpReply (char *data,uint16_t len, uint16_t port);
   static uint16_t packetLoop (uint16_t plen);
   static uint16_t accept(uint16_t port, uint16_t plen);
   static void httpServerReply (uint16_t dlen);
@@ -178,7 +178,7 @@ public:
   static uint8_t ntpProcessAnswer (uint32_t *time, uint8_t dstport_l);
   static void udpPrepare (uint16_t sport, uint8_t *dip, uint16_t dport);
   static void udpTransmit (uint16_t len);
-  static void sendUdp (char *data,uint8_t len,uint16_t sport,
+  static void sendUdp (char *data,uint16_t len,uint16_t sport,
                                               uint8_t *dip, uint16_t dport);
   static void registerPingCallback (void (*cb)(uint8_t*));
   static void clientIcmpRequest (const uint8_t *destip);
