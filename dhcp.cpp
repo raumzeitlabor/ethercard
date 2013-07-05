@@ -14,6 +14,7 @@
 
 //#define DHCPDEBUG
 
+#include <avr/wdt.h>
 #include "EtherCard.h"
 #include "net.h"
 
@@ -277,6 +278,7 @@ bool EtherCard::dhcpSetup () {
 
 	 while (dhcpState != DHCP_STATE_BOUND && (word) (millis() - start) < 60000) {
 	  if (isLinkUp()) DhcpStateMachine(packetReceive());
+    wdt_reset(); //reset the watchdog timer
     }
     return dhcpState == DHCP_STATE_BOUND ;
 }
