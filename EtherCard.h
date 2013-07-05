@@ -148,6 +148,7 @@ public:
   static uint16_t hisport;  // tcp port to connect to (default 80)
   static bool using_dhcp;   // whether dhcp is active or not
   static bool persist_tcp_connection; // whether to break connections on first packet received
+  static bool dhcp_renewed; //set when the ip address is renewed
 
   // EtherCard.cpp
   static uint8_t begin (const uint16_t size, const uint8_t* macaddr,

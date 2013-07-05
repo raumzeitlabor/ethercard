@@ -238,6 +238,8 @@ static void process_dhcp_offer (word len) {
         }
         ptr += optionLen;
     } while (ptr < gPB + len);
+
+    EtherCard::dhcp_renewed = true;
 }
 
 static bool dhcp_received_message_type (word len, byte msgType) {

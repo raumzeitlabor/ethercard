@@ -342,6 +342,7 @@ uint8_t EtherCard::hisip[4];  // dns result
 uint16_t EtherCard::hisport = 80; // tcp port to browse to
 bool EtherCard::using_dhcp = false;
 bool EtherCard::persist_tcp_connection = false;
+bool EtherCard::dhcp_renewed = false;
 
 uint8_t EtherCard::begin (const uint16_t size,
                            const uint8_t* macaddr,
