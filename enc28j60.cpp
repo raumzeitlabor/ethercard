@@ -431,7 +431,10 @@ void ENC28J60::packetSend(word len) {
 
 word ENC28J60::packetReceive() {
     word len = 0;
-    if (readRegByte(EPKTCNT) > 0) {
+    byte pktcnt = readRegByte(EPKTCNT);
+    if (pktcnt > 0) {
+        flowControlEnable();
+
         writeReg(ERDPT, gNextPacketPtr);
 
         struct {
@@ -456,6 +459,10 @@ word ENC28J60::packetReceive() {
         else
             writeReg(ERXRDPT, gNextPacketPtr - 1);
         writeOp(ENC28J60_BIT_FIELD_SET, ECON2, ECON2_PKTDEC);
+    }
+    else
+    {
+      flowControlDisable();
     }
     return len;
 }
@@ -604,3 +611,4 @@ void ENC28J60::flowControlDisable()
 {
   writeRegByte(EFLOCON, 0);
 }
+
