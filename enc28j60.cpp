@@ -595,3 +595,12 @@ uint8_t ENC28J60::doBIST ( byte csPin) {
 	return macResult == bitsResult;
 }
 
+void ENC28J60::flowControlEnable()
+{
+  writeRegByte(EFLOCON, 1);
+}
+
+void ENC28J60::flowControlDisable()
+{
+  writeRegByte(EFLOCON, 0);
+}

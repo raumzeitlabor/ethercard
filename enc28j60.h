@@ -39,6 +39,9 @@ public:
   static void disableBroadcast();
 
   static uint8_t doBIST(uint8_t csPin =8);
+
+  static void flowControlEnable();
+  static void flowControlDisable();
 };
 
 typedef ENC28J60 Ethernet;
